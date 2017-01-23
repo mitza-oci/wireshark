@@ -579,7 +579,7 @@ extern void rtps_util_add_durability_service_qos(proto_tree *tree, tvbuff_t * tv
 extern void rtps_util_add_liveliness_qos(proto_tree *tree, tvbuff_t * tvb, gint offset,
                                          gboolean little_endian);
 extern gint rtps_util_add_seq_string(proto_tree *tree, tvbuff_t* tvb, gint offset,
-                              gboolean little_endian, int param_length, int hf_numstring,
+                              gboolean little_endian, int hf_numstring,
                               int hf_string, const char *label);
 extern gint rtps_util_add_seq_octets(proto_tree *tree, packet_info *pinfo, tvbuff_t* tvb,
                               gint offset, gboolean little_endian, int param_length, int hf_id);
