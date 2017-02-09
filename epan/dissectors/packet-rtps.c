@@ -3500,7 +3500,7 @@ static gint rtps_util_add_data_holder(proto_tree *tree, tvbuff_t * tvb, packet_i
   rtps_util_dissect_parameter_header(tvb, &offset, little_endian, &param_id, &param_length);
   proto_item_set_len(ti, offset - offset_tmp + param_length);
   if (param_length > 0 ) {
-    rtps_util_add_seq_string(seq_values_tree, tvb, offset, little_endian, param_length,
+    rtps_util_add_seq_string(seq_values_tree, tvb, offset, little_endian,
                 hf_rtps_pgm_data_holder_stringseq_size, hf_rtps_pgm_data_holder_stringseq_name,
                 "Sequence");
   }
@@ -7898,8 +7898,8 @@ static void dissect_RTPS_DATA(tvbuff_t *tvb, packet_info *pinfo, gint offset, gu
       proto_tree *rtps_pm_tree;
       proto_tree *guid_tree;
       guint32 kind;
-      guint16 encapsulation_id;
-      guint16 encapsulation_len;
+      guint32 encapsulation_id;
+      guint32 encapsulation_len;
       proto_item *ti;
       rtps_pm_tree = proto_tree_add_subtree(tree, tvb, offset,
                         octets_to_next_header - (offset - old_offset) + 4,
@@ -7907,16 +7907,10 @@ static void dissect_RTPS_DATA(tvbuff_t *tvb, packet_info *pinfo, gint offset, gu
 
       /* Encapsulation ID */
       proto_tree_add_item_ret_uint(rtps_pm_tree, hf_rtps_param_serialize_encap_kind, tvb, offset, 2, ENC_BIG_ENDIAN, &encapsulation_id);
-
-      proto_tree_add_uint(rtps_pm_tree, hf_rtps_encapsulation_kind, tvb, offset, 2, encapsulation_id);
       offset += 2;
-
-      encoding = (encapsulation_id == ENCAPSULATION_CDR_LE)
-        ? ENC_LITTLE_ENDIAN : ENC_BIG_ENDIAN;
 
       /* Encapsulation length (or option) */
       proto_tree_add_item_ret_uint(rtps_pm_tree, hf_rtps_param_serialize_encap_len, tvb, offset, 2, ENC_BIG_ENDIAN, &encapsulation_len);
-      proto_tree_add_uint(rtps_pm_tree, hf_rtps_encapsulation_options, tvb, offset, 2, encapsulation_len);
       offset += 2;
 
       guid_tree = proto_item_add_subtree(ti, ett_rtps_part_message_data);
